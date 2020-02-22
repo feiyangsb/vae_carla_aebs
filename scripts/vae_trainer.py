@@ -29,7 +29,7 @@ class VAETrainer():
     def fit(self):
         self.model = VAE()
         self.model = self.model.to(self.device)
-        data_loader = DataLoader(self.dataset, batch_size=32, shuffle=True)
+        data_loader = DataLoader(self.dataset, batch_size=64, shuffle=True, num_workers=8)
         optimizer = optim.Adam(self.model.parameters(), lr=0.0001, weight_decay=0.5e-6, amsgrad=False) 
         scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[int(self.epoch*0.7)], gamma=0.1)
         self.model.train()
