@@ -3,7 +3,7 @@
 @email feiyang.cai@vanderbilt.edu
 @create date 2020-02-22 22:06:07
 @modify date 2020-02-22 22:06:07
-@desc The codes is used to compare the reconstructed image and the original image
+@desc The codes are used to compare the reconstructed image and the original image
 """
 from scripts.network import VAE
 from PIL import Image
