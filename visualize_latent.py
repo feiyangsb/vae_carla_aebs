@@ -21,7 +21,7 @@ vae.load_state_dict(torch.load("./model/vae.pt", map_location=device))
 vae.eval()
 
 try:
-    mu_list = np.load("./data/visualization/X_2d.npy")
+    X_2d = np.load("./data/visualization/X_2d.npy")
     gt_distance_list = np.load("./data/visualization/gt_dist.npy")
 except:
     mu_list = []
