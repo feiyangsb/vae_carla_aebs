@@ -14,7 +14,7 @@ class ICAD():
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.net = VAE()
         self.net = self.net.to(self.device)
-        self.net.load_state_dict(torch.load("./model/vae.pt", map_location=self.device))
+        self.net.load_state_dict(torch.load("./model/vae_epoch_350_original.pt", map_location=self.device))
         self.net.eval()
         self.nc_calibration = []
         self.transform = transforms.Compose([
@@ -34,8 +34,8 @@ class ICAD():
                     self.nc_calibration.append(nc)
 
             self.nc_calibration = np.asarray(self.nc_calibration)
-            if not os.path.exists("./data/calibration"):
-                os.makedirs("./data/calibration")
+            if not os.path.exists("./data/icad"):
+                os.makedirs("./data/icad")
             np.save("./data/icad/calibration.npy", self.nc_calibration)
         print("Calibration list has been constructed and totally {} data".format(len(self.nc_calibration)))
     
