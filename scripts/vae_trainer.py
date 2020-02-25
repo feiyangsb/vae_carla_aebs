@@ -18,7 +18,7 @@ import logging
 logger_path = "./log"
 if not os.path.exists(logger_path):
     os.makedirs(logger_path)
-logging.basicConfig(level=logging.INFO, filename=os.path.join(logger_path, 'vae_epoch_350_Feb_21.log'))
+logging.basicConfig(level=logging.INFO, filename=os.path.join(logger_path, 'vae_epoch_original_Feb_24.log'))
 
 class VAETrainer():
     def __init__(self, data_path, epoch):
@@ -45,9 +45,12 @@ class VAETrainer():
                 optimizer.zero_grad()
 
                 x, mu, logvar = self.model(inputs)
-                reconstruction_loss = torch.mean((x - inputs)**2, dim=tuple(range(1, x.dim())))
+                #reconstruction_loss = torch.mean((x - inputs)**2, dim=tuple(range(1, x.dim())))
+                reconstruction_loss = torch.sum((x-inputs)**2, dim=tuple(range(1, x.dim())))
                 kl_loss = 1 + logvar - (mu).pow(2) - logvar.exp()
-                kl_loss = torch.mean(kl_loss, axis=-1) * -0.5
+                #kl_loss = torch.mean(kl_loss, axis=-1) * -0.5
+                kl_loss = torch.sum(kl_loss, axis=-1) * -0.5
+                #loss = 150*reconstruction_loss + kl_loss
                 loss = reconstruction_loss + kl_loss
                 reconstruction_loss_mean = torch.mean(reconstruction_loss)
                 kl_loss_mean = torch.mean(kl_loss)
@@ -72,4 +75,4 @@ class VAETrainer():
     def save_model(self, path = "./model"):
         if not os.path.exists(path):
             os.makedirs(path)
-        torch.save(self.model.state_dict(), os.path.join(path, "vae.pt"))
+        torch.save(self.model.state_dict(), os.path.join(path, "vae_epoch_350_original.pt"))
